@@ -18,10 +18,10 @@ function PizzaBlock({app: title, price, sizes, imageUrl,types}) {
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-			{types.map(typeIndex => <li className={activeType === typeIndex && "active"} onClick={()=>setActiveType(typeIndex)}>{typeNames[typeIndex]}</li>)}
+			{types.map(typeIndex => <li key={typeIndex} className={activeType === typeIndex ? "active" :""} onClick={()=>setActiveType(typeIndex)}>{typeNames[typeIndex]}</li>)}
         </ul>
         <ul>
-			{sizes.map((size,index) => <li className={activeSize === index && "active"} onClick={()=>setActiveSize(index)}>{size} см.</li>)}  
+			{sizes.map((size,index) => <li key={index} className={activeSize === index ?"active" : ""} onClick={()=>setActiveSize(index)}>{size} см.</li>)}  
           
         </ul>
       </div>

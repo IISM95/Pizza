@@ -1,5 +1,21 @@
+import React from "react"
+
 
 function Sort () {
+
+	//открыть ||  закрыть популярности
+	const [sortOpen, SetSortOpen] = React.useState(false);
+
+	// выбор попуряности если  индекс равен activeIndes сделать его активным onClick передает  в стейт нажатый индекс
+   const [activePopularity, setActivePopularityy] = React.useState(0)
+	const list = ["популярности","цене","алфавиту"]
+	let sortName = list[activePopularity] // берет массив list и по индесу который выбран выводит текст
+	
+	const onClickPopulate = (index) =>{
+		setActivePopularityy(index);
+		SetSortOpen(false)
+	}
+
 	return(
 		<div className="sort">
 		<div className="sort__label">
@@ -16,15 +32,16 @@ function Sort () {
 			 />
 		  </svg>
 		  <b>Сортировка по:</b>
-		  <span>популярности</span>
+		  <span onClick={()=>SetSortOpen(!sortOpen)}>{sortName}</span>
 		</div>
+		{sortOpen &&
 		<div className="sort__popup">
-		  <ul>
-			 <li className="active">популярности</li>
-			 <li>цене</li>
-			 <li>алфавиту</li>
-		  </ul>
-		</div>
+		<ul>
+			{list.map((i,index)=><li className={activePopularity === index ? 'active' : ""} key={index} onClick={()=>onClickPopulate(index)}>{i}</li>)}
+		</ul>
+	 </div>
+		}
+		
 	 </div>
 	)
 }
