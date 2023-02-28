@@ -1,6 +1,8 @@
 //пропсы из App.js
 import React from 'react'
-function PizzaBlock({app: title, price, sizes, imageUrl,types}) {
+function PizzaBlock({title, price, sizes, imageUrl,types}) {
+
+	
    //
 	const typeNames =['тонкое', 'традиционное']
 	//изменение типа теста(тонкоеб традиционное)
@@ -50,3 +52,4 @@ function PizzaBlock({app: title, price, sizes, imageUrl,types}) {
   );
 }
 export default PizzaBlock;
+
