@@ -1,0 +1,41 @@
+.root {
+	position: relative;
+	left: -120px;
+	.input {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		padding: 12px 20px;
+		width: 420px;
+		border-radius: 10px;
+		font-style: 16px;
+		padding-left:45px;
+		// transition: all 0.15s ease-in-out; расширяет строку ввода
+
+		&:focus{
+			border: 1px solid rgba(0,0,0,0.2);
+			// width: 420px ;
+		}
+
+	}
+	.icon {
+		width: 30px;
+		height: 30px;
+		opacity: 0.3;
+		position: absolute;
+		left: 14px;
+		top:7px
+	}
+
+		.clear {
+			width: 30px;
+			height: 30px;
+			opacity: 0.3;
+			position: absolute;
+			right: 14px;
+			top: 7px;
+	
+			&:hover {
+				opacity: 0.8;
+				cursor: pointer;
+			}
+		}
+		}

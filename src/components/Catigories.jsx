@@ -1,10 +1,9 @@
 import React from "react";
 
-
-function Categories (){
-// выбор категории если  индекс равен activeIndes сделать его активным onClick передает  в стейт нажатый индекс
-const [activeCategory, setActiveCategory] = React.useState(0)
-
+//Header вынесли в родительский что бы можно было использовать 
+function Categories ({activeCategory,setActiveCategory}){
+  
+	
 	const categories =["Все","Мясные","Вегетарианская","Гриль","Острые","Закрытые"]
 	return (
 		<div className="categories">
@@ -18,3 +17,5 @@ const [activeCategory, setActiveCategory] = React.useState(0)
 	)
 }
 export default Categories
+//return <li key={index} className={activeCategory === index ? "active" : ""} onClick={()=>setActiveCategory(index)}>{item}</li>
+// выбор категории если  индекс равен activeIndes сделать его активным onClick передает  в стейт нажатый индекс 

@@ -1,15 +1,22 @@
 import React from "react"
 
-
-function Sort () {
+//Header вынесли в родительский что бы иеть доступ в Categories
+function Sort ({setActivePopularityy,activePopularity}) {
 
 	//открыть ||  закрыть популярности
 	const [sortOpen, SetSortOpen] = React.useState(false);
 
-	// выбор попуряности если  индекс равен activeIndes сделать его активным onClick передает  в стейт нажатый индекс
-   const [activePopularity, setActivePopularityy] = React.useState(0)
-	const list = ["популярности","цене","алфавиту"]
-	let sortName = list[activePopularity] // берет массив list и по индесу который выбран выводит текст
+
+	const list = [
+		{name:'популярности(DESC)', sortProperty: 'rating'},
+		{name:'популярности(ASC)', sortProperty: '-rating'},
+		{name:'цена(DESC)', sortProperty: 'price'},
+		{name:'цена(ASC)', sortProperty: '-price'},
+		{name:'алфавиту(DESC)', sortProperty: 'title'},
+		{name:'алфавиту(ASC)', sortProperty: '-title'}
+	]
+
+
 	
 	const onClickPopulate = (index) =>{
 		setActivePopularityy(index);
@@ -32,12 +39,13 @@ function Sort () {
 			 />
 		  </svg>
 		  <b>Сортировка по:</b>
-		  <span onClick={()=>SetSortOpen(!sortOpen)}>{sortName}</span>
+		  <span onClick={()=>SetSortOpen(!sortOpen)}>{activePopularity.name}</span>
 		</div>
+		
 		{sortOpen &&
 		<div className="sort__popup">
 		<ul>
-			{list.map((i,index)=><li className={activePopularity === index ? 'active' : ""} key={index} onClick={()=>onClickPopulate(index)}>{i}</li>)}
+			{list.map((i,index)=><li className={activePopularity.sortProperty === i.sortProperty ? 'active' : ""} key={index} onClick={()=>onClickPopulate(i)}>{i.name}</li>)}
 		</ul>
 	 </div>
 		}
@@ -46,3 +54,5 @@ function Sort () {
 	)
 }
 export default Sort
+//{list.map((i,index)=><li className={activePopularity === index ? 'active' : ""} key={index} onClick={()=>onClickPopulate(index)}>{i}</li>)}
+//выбор попуряности если  индекс равен activeIndes сделать его активным onClick передает  в стейт нажатый индекс
