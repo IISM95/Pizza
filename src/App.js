@@ -10,7 +10,7 @@ import "./scss/app.scss";
 
 function App() {
   const [searchValu, setSerchValu] = React.useState("");
-  console.log(searchValu);
+ 
 
   return (
 <AppContext.Provider value={{searchValu,setSerchValu}}>
