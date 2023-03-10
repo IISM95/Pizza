@@ -1,14 +1,12 @@
 //пропсы из App.js
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../app/slice/cartSlice";
+import { addItem, selectCartItemById } from "../../app/slice/cartSlice";
 
 //пропсы из Home
 function PizzaBlock({ id, title, price, sizes, imageUrl, types }) {
   const dispatch = useDispatch();
-  const cartItem = useSelector((state) =>
-    state.cartSlice.items.find((item) => item.id === id)
-  );
+  const cartItem = useSelector(selectCartItemById(id));//cелектор gпо ID
   const addedCount = cartItem ? cartItem.count : 0;
 
   const handleAdd = () => {

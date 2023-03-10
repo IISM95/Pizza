@@ -1,17 +1,19 @@
 import React from "react";
 import styles from "./Search.module.scss";
-import AppContext from "../../context";
 import debounce from "lodash.debounce";
+import { useDispatch } from "react-redux";
+import {setSerchValue } from "../../app/slice/filterSlice";
 
 const Search = () => {
-  const { setSerchValu } = React.useContext(AppContext);
+  const dispatch =useDispatch()
+
 
   const [value, setValue] = React.useState("");
   // use ref тут используется что бы  когда очищаем инпут бегунок там оставался
   const inputRef = React.useRef();
 
   const onClickClear = () => {
-	setSerchValu("");
+	dispatch(setSerchValue(''))
 	setValue("")
     inputRef.current.focus();
   };
@@ -20,7 +22,7 @@ const Search = () => {
 //////////////// debounce позволяет делать паузу перед отправкой на бек. useCallback нужен что бы  каждый раз функция onChangeInput не вызывалась когда меняется valu
 //если она пересоздается то 1 рендер и 2 бывают folse 14 видео 25 минута
   const onChangeInput = React.useCallback(debounce((str) => {
-	setSerchValu(str);
+	dispatch(setSerchValue(str)) ;
   }, 500),[]);
 
   const handleText = (event) => {

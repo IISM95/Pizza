@@ -3,14 +3,14 @@ import Categories from "../components/Catigories";
 import Sort, { list } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
-import AppContext from "../context";
 import Pagination from "../components/Pagination/Pagination";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setCategoryId,
   setCurrentPage,
   setFilters,
+  
 } from "../app/slice/filterSlice";
 import qs from "qs";
 import { fetchPizzas } from "../app/slice/pizzaSlice";
@@ -22,7 +22,7 @@ const Home = () => {
   const isMounted = React.useRef(false); // нужен что бы когда первый раз рендарем то в url не вписывал http://localhost:3001/?sortProperty=rating&categoryId=0& //а оставлял http://localhost:3001/
 
   ///////// сортировка по категориям1111 //12:55
-  const { categoryId, sort, currentPage } = useSelector(
+  const { categoryId, sort, currentPage , serchValue} = useSelector(
     (state) => state.filterSlice
   );
   const { items, status } = useSelector((state) => state.pizzaSlice);
@@ -36,16 +36,16 @@ const Home = () => {
   };
 
   // поиск пицц
-  const { searchValu } = React.useContext(AppContext);
-  const filteredItems = items.filter((item) =>
-    item.title.toLowerCase().includes(searchValu.toLowerCase())
-  );
 
+  const filteredItems = items.filter((item) =>
+    item.title.toLowerCase().includes(serchValue.toLowerCase())
+  );
+ 
   const getPizzas = async () => {
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const sortBy = sort.sortProperty.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const search = searchValu ? `search=${searchValu}` : ""; //поиск на беке
+    const search = serchValue ? `search=${serchValue}` : ""; //поиск на беке
     dispatch(
       fetchPizzas({
         order,
@@ -90,7 +90,7 @@ const Home = () => {
       getPizzas();
     }
     isSearch.current = false;
-  }, [sort.sortProperty, categoryId, searchValu, currentPage]);
+  }, [sort.sortProperty, categoryId, serchValue, currentPage]);
 
   return (
     <>
@@ -117,9 +117,11 @@ const Home = () => {
             //если идет загрузка создаем новый массив из 6 undefined и заменем их на скелетоны если нет то отоброжаем пиццы
             status === "loading"
               ? [...new Array(8)].map((_, index) => <Skeleton key={index} />)
-              : filteredItems.map((i, index) => (
-                  <PizzaBlock key={index} {...i} />
-                ))
+              : filteredItems.map((i) => <Link to={`/pizza/${i.id}`} key={i.id}> 
+				   <PizzaBlock  {...i} />
+				  </Link> 
+                 
+                )
           }
         </div>
       )}
