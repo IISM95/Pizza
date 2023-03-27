@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSort } from "../app/slice/filterSlice";
-//Header вынесли в родительский что бы иеть доступ в Categories
+
 
 export const list = [
   { name: "популярности(DESC)", sortProperty: "rating" },
@@ -16,10 +16,10 @@ function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filterSlice.sort);
 
-  //открыть ||  закрыть популярности
+
   const [sortOpen, SetSortOpen] = React.useState(false);
 
-  //что бы сортировка закрывалась если нажму где угодно на странице
+
   const sortRef = React.useRef();
 
   const onClickPopulate = (obj) => {
@@ -27,7 +27,7 @@ function Sort() {
     SetSortOpen(false);
   };
 
-  //если не было клика по сортировке а был в другом месте сайта, то закрыть окно сортировки return внизу делает unmount
+
   React.useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.composedPath().includes(sortRef.current)) {
@@ -76,5 +76,4 @@ function Sort() {
   );
 }
 export default Sort;
-//{list.map((i,index)=><li className={activePopularity === index ? 'active' : ""} key={index} onClick={()=>onClickPopulate(index)}>{i}</li>)}
-//выбор попуряности если  индекс равен activeIndes сделать его активным onClick передает  в стейт нажатый индекс
+

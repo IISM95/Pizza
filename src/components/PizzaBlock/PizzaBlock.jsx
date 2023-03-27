@@ -1,12 +1,12 @@
-//пропсы из App.js
+
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, selectCartItemById } from "../../app/slice/cartSlice";
 
-//пропсы из Home
+
 function PizzaBlock({ id, title, price, sizes, imageUrl, types }) {
   const dispatch = useDispatch();
-  const cartItem = useSelector(selectCartItemById(id));//cелектор gпо ID
+  const cartItem = useSelector(selectCartItemById(id));
   const addedCount = cartItem ? cartItem.count : 0;
 
   const handleAdd = () => {
@@ -15,16 +15,16 @@ function PizzaBlock({ id, title, price, sizes, imageUrl, types }) {
       title,
       price,
       imageUrl,
-      type: typeNames[activeType],// передает имя пиццы а не 0 или 1
+      type: typeNames[activeType],
       size: sizes[activeSize], 
     };
     dispatch(addItem(item));
   };
 
   const typeNames = ["тонкое", "традиционное"];
-  //изменение типа теста(тонкоеб традиционное)
+
   const [activeType, setActiveType] = React.useState(0);
-  // выбор размера пиццы
+
   const [activeSize, setActiveSize] = React.useState(0);
 
   return (

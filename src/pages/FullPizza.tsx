@@ -2,9 +2,13 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const FullPizza = () => {
-  const { id } = useParams(); // 19 видео 22 минута
-  const [pizza, setPizza] = React.useState();
+const FullPizza: React.FC = () => {
+  const { id } = useParams(); 
+  const [pizza, setPizza] = React.useState<{
+	imageUrl:string;
+	title:string;
+	price:number
+  }>();
 
   const navigate = useNavigate()
 
@@ -15,7 +19,7 @@ const FullPizza = () => {
           const { data } = await axios.get("https://63fa6b3d897af748dcced24c.mockapi.io/items/" + id);
           setPizza(data);
         } catch (error) {
-			navigate('/') // если такой пиццы нету то перекидывает на главную страницу
+			navigate('/') 
 			alert('ошибка при получении пиццы')
 		  }
       }
@@ -23,7 +27,7 @@ const FullPizza = () => {
     },[]);
 
 	 if(!pizza) {
-		return "загрузка..."
+		return <>загрузка...</>
 	 }
   return <div className="container">
 	<img src={pizza.imageUrl} alt =""/>
@@ -33,3 +37,4 @@ const FullPizza = () => {
 };
 
 export default FullPizza;
+

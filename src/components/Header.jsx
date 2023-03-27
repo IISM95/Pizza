@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import { selectCart } from "../app/slice/cartSlice";
 
 function Header() {
-  const { items, totalPrice } = useSelector(selectCart); //селектор из слайса
+  const { items, totalPrice } = useSelector(selectCart); 
   const totalCount = items.reduce((acc, item) => item.count + acc, 0);
-  const location = useLocation(); // если нам надо убрать какой то компонент по условию в параметрах 19 видео 12 минута
+  const location = useLocation(); 
 
   return (
     <div className="header">

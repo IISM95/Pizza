@@ -1,39 +1,53 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  serchValue:'',
-  categoryId: 0,
-  currentPage: 1,
-  sort: {
-    name: "популярности",
-    sortProperty: "rating",
-  }
+  totalPrice: 0,
+  items: [],
 };
 
-const filterSlice = createSlice({
-  name: "filters",
+const cartSlice = createSlice({
+  name: "cart",
   initialState,
   reducers: {
-    setCategoryId(state, action) {
-      state.categoryId = action.payload;
+    // добавляет если уже находит то добавляет на 1 если не находит то создает еще ключ сount
+    addItem(state, action) {
+      const findItem = state.items.find(
+        (item) => item.id === action.payload.id
+      );
+      if (findItem) {
+        findItem.count++;
+      } else {
+        state.items.push({
+          ...action.payload,
+          count: 1,
+        });
+      }
+      state.totalPrice = state.items.reduce((acc, item) => {
+        return item.price * item.count + acc;
+      }, 0);
     },
-	 setSerchValue(state, action) {
-      state.serchValue = action.payload;
+
+    minusItem(state, action) {
+      const findItem = state.items.find((item) => item.id === action.payload);
+      if (findItem) {
+        findItem.count--;
+      }
     },
-    setSort(state, action) {
-      state.sort.name = action.payload.name;
-      state.sort = action.payload;
+    removeItem(state, action) {
+      state.items = state.items.filter((obj) => obj.id !== action.payload);
     },
-    setCurrentPage(state, action) {
-      state.currentPage = action.payload;
+    clearItems(state) {
+      state.items = [];
+      state.totalPrice = 0;
     },
-	 setFilters(state, action) {
-		state.currentPage = Number(action.payload.currentPage);
-		state.sort = action.payload.sortlist;
-		state.categoryId = Number(action.payload.categoryId)
-	 }
   },
 });
-export const { setCategoryId, setSort, setCurrentPage, setFilters, setSerchValue } = filterSlice.actions;
 
-export default filterSlice.reducer;
+//cелектор
+export const selectCart = (state) => state.cartSlice;
+export const selectCartItemById = (id) => (state) =>
+  state.cartSlice.items.find((item) => item.id === id);
+
+export const { addItem, removeItem, clearItems, minusItem } = cartSlice.actions;
+
+export default cartSlice.reducer;

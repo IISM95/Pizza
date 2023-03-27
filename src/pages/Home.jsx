@@ -18,10 +18,9 @@ import { fetchPizzas } from "../app/slice/pizzaSlice";
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isSearch = React.useRef(false); //нужен для проверки useEffect если в парамсах есть что то то не делать 2 запроса на бек
-  const isMounted = React.useRef(false); // нужен что бы когда первый раз рендарем то в url не вписывал http://localhost:3001/?sortProperty=rating&categoryId=0& //а оставлял http://localhost:3001/
-
-  ///////// сортировка по категориям1111 //12:55
+  const isSearch = React.useRef(false); 
+  const isMounted = React.useRef(false); 
+ 
   const { categoryId, sort, currentPage , serchValue} = useSelector(
     (state) => state.filterSlice
   );
@@ -35,7 +34,7 @@ const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
-  // поиск пицц
+
 
   const filteredItems = items.filter((item) =>
     item.title.toLowerCase().includes(serchValue.toLowerCase())
@@ -45,7 +44,7 @@ const Home = () => {
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const sortBy = sort.sortProperty.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const search = serchValue ? `search=${serchValue}` : ""; //поиск на беке
+    const search = serchValue ? `search=${serchValue}` : ""; 
     dispatch(
       fetchPizzas({
         order,
@@ -57,7 +56,7 @@ const Home = () => {
     );
   };
 
-  // вот этот в вверх в url передает данные в верху сайта 15 видео 2) если был первый рендер то только тогда  нужно  вшивать параметры в url
+  
   React.useEffect(() => {
     if (isMounted.current) {
       const qeryString = qs.stringify({
@@ -70,7 +69,7 @@ const Home = () => {
     isMounted.current = true;
   }, [sort.sortProperty, categoryId, currentPage]);
 
-  //делаем что бы страница при обновлении не пропадала 15 видео //1)если был 1 рендер то проверяем URL-параметры и сохраняем в редакс
+
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
@@ -78,15 +77,15 @@ const Home = () => {
         (obj) => obj.sortProperty === params.sortProperty
       );
       dispatch(setFilters({ ...params, sortlist }));
-      isSearch.current = true; //до того как выполниться основной useEffect внизу, смотрим что в парамсах а потом внизу запускает функцию fetchPizzas
+      isSearch.current = true; 
     }
   }, []);
 
-  // если был первый рендер, то запрашиваем пиццы
+
   React.useEffect(() => {
-    window.scrollTo(0, 0); // когда с другой страницы перехожу в эту то окаваюсь вверху
+    window.scrollTo(0, 0); 
     if (!isSearch.current) {
-      //если у нас нет поиска !isSearch.current=true
+    
       getPizzas();
     }
     isSearch.current = false;
@@ -114,7 +113,7 @@ const Home = () => {
       ) : (
         <div className="content_items">
           {
-            //если идет загрузка создаем новый массив из 6 undefined и заменем их на скелетоны если нет то отоброжаем пиццы
+    
             status === "loading"
               ? [...new Array(8)].map((_, index) => <Skeleton key={index} />)
               : filteredItems.map((i) => <Link to={`/pizza/${i.id}`} key={i.id}> 
@@ -133,12 +132,3 @@ const Home = () => {
 
 export default Home;
 
-//setActiveCategory={(i)=>setActiveCategory(i)} когда в Catigories мы  выбираем категорию i передается через пропс в эту функ
-
-//    axios.get(
-// 	`https://63fa6b3d897af748dcced24c.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-// 	)
-// 	.then((res)=>{
-// 		setItams(res.data)
-// 		setIsLoading(false)
-// 	})

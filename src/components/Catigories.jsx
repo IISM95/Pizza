@@ -1,6 +1,6 @@
 import React from "react";
 
-//Header вынесли в родительский что бы можно было использовать 
+
 function Categories ({activeCategory,setActiveCategory}){
   
 	
@@ -17,5 +17,3 @@ function Categories ({activeCategory,setActiveCategory}){
 	)
 }
 export default Categories
-//return <li key={index} className={activeCategory === index ? "active" : ""} onClick={()=>setActiveCategory(index)}>{item}</li>
-// выбор категории если  индекс равен activeIndes сделать его активным onClick передает  в стейт нажатый индекс 
