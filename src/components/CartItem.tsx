@@ -1,12 +1,28 @@
 import React from 'react';
 import { useDispatch} from "react-redux";
-import { addItem, minusItem,removeItem } from "../app/slice/cartSlice";
 
-const CartItem = ({id, title, price, count , type, imageUrl,size}) => {
+import clsx from 'clsx';
+import { CartItem } from '../app/slice/cart/types';
+import { addItem, minusItem, removeItem } from '../app/slice/cart/slice';
+
+
+
+type CartItemProps ={ 
+	id:string;
+	title:string;
+	price:number;
+	count: number;
+	type:string;
+	imageUrl:string;
+	size:number
+}
+
+
+const CartItemBlock:React.FC<CartItemProps> = ({id, title, price, count , type, imageUrl,size}) => {
 
 	const dispatch = useDispatch();
 	const handlePlus = () =>{
-		dispatch(addItem({id}))
+		dispatch(addItem({id} as CartItem)) 
 	}
 	const handleMinus = () =>{
 		dispatch(minusItem(id))
@@ -19,20 +35,21 @@ const CartItem = ({id, title, price, count , type, imageUrl,size}) => {
 
 
 	return (
-			 <div class="cart__item">
-            <div class="cart__item-img">
+			 <div className="cart__item">
+            <div className="cart__item-img">
               <img
-                class="pizza-block__image"
+                className="pizza-block__image"
                 src={imageUrl}
                 alt="Pizza"
               />
             </div>
-            <div class="cart__item-info">
+            <div className="cart__item-info">
               <h3>{title}</h3>
               <p>{type}, {size} см.</p>
             </div>
-            <div class="cart__item-count">
-              <div onClick={handleMinus} class="button button--outline button--circle cart__item-count-minus">
+            <div className="cart__item-count">
+					
+              <button disabled={count ===1} onClick={handleMinus} className={clsx("button button--outline button--circle cart__item-count-minus", {"cart__item-count-minus--disabled":count===1})}>
                 <svg
                   width="10"
                   height="10"
@@ -49,9 +66,9 @@ const CartItem = ({id, title, price, count , type, imageUrl,size}) => {
                     fill="#EB5A1E"
                   ></path>
                 </svg>
-              </div>
+              </button>
               <b>{count}</b>
-              <div onClick={handlePlus} class="button button--outline button--circle cart__item-count-plus">
+              <button onClick={handlePlus} className="button button--outline button--circle cart__item-count-plus">
                 <svg
                   width="10"
                   height="10"
@@ -68,13 +85,13 @@ const CartItem = ({id, title, price, count , type, imageUrl,size}) => {
                     fill="#EB5A1E"
                   ></path>
                 </svg>
-              </div>
+              </button>
             </div>
-            <div class="cart__item-price">
+            <div className="cart__item-price">
               <b>{price * count} ₽</b>
             </div>
-            <div onClick={handleRemove} class="cart__item-remove">
-              <div class="button button--outline button--circle">
+            <div onClick={handleRemove} className="cart__item-remove">
+              <div className="button button--outline button--circle">
                 <svg
                   width="10"
                   height="10"
@@ -97,4 +114,4 @@ const CartItem = ({id, title, price, count , type, imageUrl,size}) => {
 	);
 };
 
-export default CartItem;
+export default CartItemBlock;

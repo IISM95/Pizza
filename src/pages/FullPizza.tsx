@@ -37,4 +37,3 @@ const FullPizza: React.FC = () => {
 };
 
 export default FullPizza;
-

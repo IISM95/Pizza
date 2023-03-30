@@ -1,37 +1,56 @@
 
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, selectCartItemById } from "../../app/slice/cartSlice";
+import { Link } from "react-router-dom";
+import { selectCartItemById } from "../../app/slice/cart/selectors";
+import { addItem } from "../../app/slice/cart/slice";
+import { CartItem } from "../../app/slice/cart/types";
 
 
-function PizzaBlock({ id, title, price, sizes, imageUrl, types }) {
+type PizzaBlockProps = {
+	id:string;
+	title:string;
+	price:number;
+	count: number;
+	types:number[];
+	imageUrl:string;
+	sizes:number[]
+
+}
+
+
+const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, title, price, sizes, imageUrl, types }) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
   const addedCount = cartItem ? cartItem.count : 0;
 
   const handleAdd = () => {
-    const item = {
+
+    const item: CartItem = {
       id,
       title,
       price,
       imageUrl,
       type: typeNames[activeType],
       size: sizes[activeSize], 
+		count:0
     };
     dispatch(addItem(item));
   };
 
   const typeNames = ["тонкое", "традиционное"];
-
+  //изменение типа теста(тонкоеб традиционное)
   const [activeType, setActiveType] = React.useState(0);
-
+  // выбор размера пиццы
   const [activeSize, setActiveSize] = React.useState(0);
 
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
+		<Link to={`/pizza/${id}`}>
         <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
         <h4 className="pizza-block__title">{title}</h4>
+		  </Link>
         <div className="pizza-block__selector">
           <ul>
             {types.map((typeIndex) => (
